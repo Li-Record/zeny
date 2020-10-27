@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <Bcard msg="Welcome to Your Vue.js App"/>
+    <Logout msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Bcard from '@/components/Bcard.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
   name: 'Home',
   components: {
-    Bcard
+    Logout
   }
 }
 </script>
