@@ -46,12 +46,15 @@ export default {
       const vm = this;
       const api = `${process.env.VUE_APP_PRODUCTS_API_PATH}/admin/signin`
       this.$http.post(api, vm.user).then((response) => {
-        // console.log(response.data)
         if(response.data.success) {
           const token = response.data.token;
           const expired = response.data.expired;
           document.cookie = `sToken=${token}; expires=${new Date(expired)};`;
-          vm.$router.push('/');
+          vm.$router.push('/dashboard');
+        }else {
+          vm.user.username = '';
+          vm.user.password = '';
+          alert('身分驗證失敗，請確認帳號及密碼');
         }
       })
     },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button variant="outline-dark" @click.prevent="logout">登出</b-button>
+    <b-button variant="primary" @click.prevent="logout">登出</b-button>
   </div>
 </template>
 
@@ -10,8 +10,16 @@ export default {
   data() {
     return {};
   },
-  props: {
-    msg: String
+  props: {},
+  created() {
+    const vm = this;
+    const api = `${process.env.VUE_APP_PRODUCTS_API_PATH}/api/user/check`;
+    vm.$http.post(api).then((response) => {
+      if (!response.data.success) {
+        alert('請先登入');
+        vm.$router.push('/login');
+      }
+    })
   },
   methods: {
     logout() {

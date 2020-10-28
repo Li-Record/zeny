@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <Logout msg="Welcome to Your Vue.js App"/>
+    <Logout />
   </div>
 </template>
 
