@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <Logout />
+    <router-link class="btn btn-primary ml-2" to="/admin">後台</router-link>
   </div>
 </template>
 

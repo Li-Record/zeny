@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import './all.scss'
+import './assets/all.scss'
 import App from './App.vue'
 import router from './router'
 

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../components/pages/Login.vue'
-import Dashboard from '../components/pages/Dashboard.vue'
+import Login from '../views/Login.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Products from '../views/Products.vue'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter);
@@ -23,10 +24,17 @@ const routes = [
     component: Login,
   },
   {
-    path: '/dashboard',
+    path: '/admin',
     name: 'Dashboard',
-    meta: { requiresAuth: true },
     component: Dashboard,
+    children: [
+      {
+        path: 'products',
+        name: 'Products',
+        component: Products,
+        meta: { requiresAuth: true },
+      }
+    ],
   },
 ]
 

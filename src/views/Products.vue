@@ -1,0 +1,59 @@
+<template>
+  <div>
+    <div class="text-right">
+      <button class="btn btn-sm btn-primary my-2">建立新產品</button>
+    </div>
+    <table class="table text-left table-hover">
+      <thead>
+        <tr>
+          <th scope="col" width="120">分類</th>
+          <th scope="col">名稱</th>
+          <th scope="col" width="90">原價</th>
+          <th scope="col" width="90">售價</th>
+          <th scope="col" width="100">是否啟用</th>
+          <th scope="col" width="120">編輯</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, key) in products" :id="key" :key="key">
+          <th class="align-middle" scope="row">{{ item.category }}</th>
+          <td class="align-middle">{{ item.title }}</td>
+          <td class="align-middle text-right">{{ item.origin_price }}</td>
+          <td class="align-middle text-right">{{ item.price }}</td>
+          <td class="align-middle">
+            <span v-if="item.is_enabled" class="text-success">{{ '啟用' }}</span>
+            <span v-else class="text-danger">{{ '未啟用' }}</span>
+          </td>
+          <td class="align-middle">
+            <a href="#" class="btn btn-outline-primary btn-sm mr-1">編輯</a>
+            <a href="#" class="btn btn-outline-danger btn-sm">刪除</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "products",
+  data() {
+    return {
+      products: [],
+    };
+  },
+  created() {
+    const vm = this;
+    const api = `${process.env.VUE_APP_PRODUCTS_API_PATH}/api/${process.env.VUE_APP_CUSTOMER_PATH}/admin/products/all`;
+    vm.$http.get(api).then((response) => {
+      if (response.data.success) {
+        console.log(vm.products);
+        vm.products = response.data.products;
+        console.log(response.data);
+      } else {
+        console.log("API 取得失敗");
+      }
+    });
+  },
+};
+</script>
