@@ -15,6 +15,7 @@
       :body-text-variant="bodyTextVariant"
       :footer-bg-variant="footerBgVariant"
       :footer-text-variant="footerTextVariant"
+      @ok="console.log('ok')"
     >
       <CreatePds :pd-data="pdData[0]"></CreatePds>
       

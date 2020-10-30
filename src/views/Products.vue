@@ -61,9 +61,7 @@ export default {
     const api = `${process.env.VUE_APP_PRODUCTS_API_PATH}/api/${process.env.VUE_APP_CUSTOMER_PATH}/admin/products/all`;
     vm.$http.get(api).then((response) => {
       if (response.data.success) {
-        console.log(vm.products);
         vm.products = response.data.products;
-        console.log(response.data);
       } else {
         console.log("API 取得失敗");
       }
