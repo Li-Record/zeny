@@ -5,6 +5,7 @@
       <router-link to="/login">Login</router-link>
     </div> -->
     <router-view/>
+    <a target="_blank" href="https://icons8.com/icons/set/z-coordinate">Z Coordinate icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
   </div>
 </template>
 

@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="text-right">
-      <button class="btn btn-sm btn-primary my-2">建立新產品</button>
+      <Model model-title="新增產品" pd-id="createPds" btn-style="primary btn-sm my-2">
+        <template v-slot:btn_title>
+          建立新產品
+        </template>
+      </Model>
     </div>
     <table class="table text-left table-hover">
       <thead>
@@ -23,9 +27,13 @@
           <td class="align-middle">
             <span v-if="item.is_enabled" class="text-success">{{ '啟用' }}</span>
             <span v-else class="text-danger">{{ '未啟用' }}</span>
-          </td>
+          </td> 
           <td class="align-middle">
-            <a href="#" class="btn btn-outline-primary btn-sm mr-1">編輯</a>
+            <Model model-title="編輯產品" :pd-id="key" btn-style="outline-primary btn-sm mr-1">
+              <template v-slot:btn_title>
+                編輯
+              </template>
+            </Model>
             <a href="#" class="btn btn-outline-danger btn-sm">刪除</a>
           </td>
         </tr>
@@ -35,12 +43,18 @@
 </template>
 
 <script>
+import Model from '@/components/Model.vue';
+
+
 export default {
   name: "products",
   data() {
     return {
       products: [],
     };
+  },
+  components: {
+    Model,
   },
   created() {
     const vm = this;
