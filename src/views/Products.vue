@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right">
-      <Model model-title="新增產品" pd-id="createPds" btn-style="primary btn-sm my-2">
+      <Model model-title="新增產品" @enabled-state="enabledState" pd-id="createPds" btn-style="primary btn-sm my-2">
         <template v-slot:btn_title>
           建立新產品
         </template>
@@ -29,7 +29,7 @@
             <span v-else class="text-danger">{{ '未啟用' }}</span>
           </td> 
           <td class="align-middle">
-            <Model model-title="編輯產品" :pd-id="key" btn-style="outline-primary btn-sm mr-1">
+            <Model model-title="編輯產品" @enabled-state="enabledState" :pd-id="key" btn-style="outline-primary btn-sm mr-1">
               <template v-slot:btn_title>
                 編輯
               </template>
@@ -66,6 +66,28 @@ export default {
         console.log("API 取得失敗");
       }
     });
+  },
+  methods: {
+    getAllPds() {
+      const vm = this;
+      const api = `${process.env.VUE_APP_PRODUCTS_API_PATH}/api/${process.env.VUE_APP_CUSTOMER_PATH}/admin/products/all`;
+      vm.$http.get(api).then((response) => {
+        if (response.data.success) {
+          vm.products = response.data.products;
+        } else {
+          console.log("API 取得失敗");
+        }
+      });
+    },
+    enabledState(state) {
+      const vm = this;
+      if (state.data.id) {
+        vm.products[state.data.id] = state.data;
+      } else {
+        vm.getAllPds();
+      }
+      
+    }
   },
 };
 </script>

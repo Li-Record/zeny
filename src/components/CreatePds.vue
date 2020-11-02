@@ -3,7 +3,7 @@
     <div class="modal-lg" role="document">
       <div class="modal-content border-0">
         <div class="modal-body">
-          <div class="row">
+          <div class="row" @change="inputPdData">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="image">輸入圖片網址</label>
@@ -162,20 +162,22 @@ export default {
   name: "CreatePds",
   data() {
     return {
-      pd: {
-        title: this.pdData.title || '',
-        category: this.pdData.category || '',
-        origin_price: this.pdData.origin_price || '',
-        price: this.pdData.price || '',
-        unit: this.pdData.unit || '',
-        image: '',
-        description: '',
-        content: '',
-        is_enabled: this.pdData.is_enabled || '',
-        imageUrl: this.pdData.image || '',
-      }
+      pd: {},
     };
   },
-  props:['pd-data']
+  props:['pd-data'],
+  watch: {
+    pdData(newData) {
+      // newData.imageUrl = newData.image;
+      // newData.image = '';
+      this.pd = {...newData};
+    },
+  },
+  methods: {
+    inputPdData() {
+      const vm = this;
+      vm.$emit('send-pd-data', vm.pd);
+    }
+  }
 };
 </script>
