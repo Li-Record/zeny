@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="modal-lg" role="document">
+    <div v-if="idLoading" class="modal-lg" role="document">
       <div class="modal-content border-0">
         <div class="modal-body">
           <div class="row" @change="inputPdData">
@@ -132,45 +132,26 @@
         </div>
       </div>
     </div>
-    <!-- <div class="modal-dialog" role="document">
-      <div class="modal-content border-0">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title" id="exampleModalLabel">
-            <span>刪除產品</span>
-          </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          是否刪除
-          <strong class="text-danger"></strong>
-          商品(刪除後將無法恢復)。
-        </div>
-      </div>
-    </div> -->
+    <Loader v-else></Loader>
   </div>
 </template>
 
 <script>
+import Loader from '@/components/Loader.vue'
+
 export default {
   name: "CreatePds",
   data() {
     return {
       pd: {},
+      idLoading: false,
     };
   },
   props:['pd-data'],
   watch: {
     pdData(newData) {
-      // newData.imageUrl = newData.image;
-      // newData.image = '';
       this.pd = {...newData};
+      this.idLoading = !this.idLoading;
     },
   },
   methods: {
@@ -178,6 +159,9 @@ export default {
       const vm = this;
       vm.$emit('send-pd-data', vm.pd);
     }
+  },
+  components: {
+    Loader
   }
 };
 </script>

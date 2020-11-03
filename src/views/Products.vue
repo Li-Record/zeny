@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="text-right">
-      <Model model-title="新增產品" @enabled-state="enabledState" pd-id="createPds" btn-style="primary btn-sm my-2">
+      <PdsModel model-title="新增產品" @enabled-state="enabledState" pd-id="createPds" btn-style="primary btn-sm my-2">
         <template v-slot:btn_title>
           建立新產品
         </template>
-      </Model>
+      </PdsModel>
     </div>
     <table class="table text-left table-hover">
       <thead>
@@ -18,7 +18,7 @@
           <th scope="col" width="120">編輯</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="idLoading">
         <tr v-for="(item, key) in products" :id="key" :key="key">
           <th class="align-middle" scope="row">{{ item.category }}</th>
           <td class="align-middle">{{ item.title }}</td>
@@ -29,32 +29,45 @@
             <span v-else class="text-danger">{{ '未啟用' }}</span>
           </td> 
           <td class="align-middle">
-            <Model model-title="編輯產品" @enabled-state="enabledState" :pd-id="key" btn-style="outline-primary btn-sm mr-1">
+            <PdsModel model-title="編輯產品" @enabled-state="enabledState" :pd-id="key" btn-style="outline-primary btn-sm mr-1">
               <template v-slot:btn_title>
                 編輯
               </template>
-            </Model>
-            <a href="#" class="btn btn-outline-danger btn-sm">刪除</a>
+            </PdsModel>
+            <!-- <a href="#" class="btn btn-outline-danger btn-sm">刪除</a> -->
+            <PdsDelModel model-title="刪除產品" @del-state="delState" :pd-id="key" btn-style="outline-danger btn-sm">
+              <template v-slot:btn_title>
+                刪除
+              </template>
+            </PdsDelModel>
           </td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <Loader></Loader>
+      </tbody>
     </table>
+    
   </div>
 </template>
 
 <script>
-import Model from '@/components/Model.vue';
-
+import PdsModel from '@/components/PdsModel.vue';
+import PdsDelModel from '@/components/PdsDelModel.vue';
+import Loader from '@/components/Loader.vue'
 
 export default {
   name: "products",
   data() {
     return {
       products: [],
+      idLoading: false,
     };
   },
   components: {
-    Model,
+    PdsModel,
+    PdsDelModel,
+    Loader
   },
   created() {
     const vm = this;
@@ -65,6 +78,7 @@ export default {
       } else {
         console.log("API 取得失敗");
       }
+      vm.idLoading = response.data.success;
     });
   },
   methods: {
@@ -77,6 +91,7 @@ export default {
         } else {
           console.log("API 取得失敗");
         }
+        vm.idLoading = response.data.success;
       });
     },
     enabledState(state) {
@@ -87,6 +102,14 @@ export default {
         vm.getAllPds();
       }
       
+    },
+    delState(state) {
+      const vm = this;
+      if (state) {
+        vm.getAllPds();
+      } else {
+        console.log('刪除失敗');
+      }
     }
   },
 };
