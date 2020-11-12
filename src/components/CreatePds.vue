@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="idLoading" class="modal-lg" role="document">
+    <div v-if="isLoading" class="modal-lg" role="document">
       <div class="modal-content border-0">
         <div class="modal-body">
           <div class="row" @change="inputPdData">
@@ -25,13 +25,16 @@
                   id="customFile"
                   class="form-control"
                   ref="files"
+                  @change="upLoadFile"
                 />
               </div>
               <img
                 :src="pd.imageUrl"
                 class="img-fluid"
                 alt=""
+                v-if="isImgLoading"
               />
+              <Loader v-else></Loader>
             </div>
             <div class="col-sm-8">
               <div class="form-group">
@@ -144,20 +147,43 @@ export default {
   data() {
     return {
       pd: {},
-      idLoading: false,
+      isLoading: false,
+      isImgLoading: true,
     };
   },
   props:['pd-data'],
   watch: {
     pdData(newData) {
       this.pd = {...newData};
-      this.idLoading = !this.idLoading;
+      this.isLoading = !this.isLoading;
     },
   },
   methods: {
     inputPdData() {
       const vm = this;
       vm.$emit('send-pd-data', vm.pd);
+    },
+    upLoadFile() {
+      const vm = this;
+      const files = vm.$refs.files.files[0];
+      const formData = new FormData();
+      formData.append('file-to-upload', files);
+      const api = `${process.env.VUE_APP_PRODUCTS_API_PATH}/api/${process.env.VUE_APP_CUSTOMER_PATH}/admin/upload`;
+      vm.isImgLoading = false;
+      vm.$http.post(api, formData, {
+        header: {
+          'Content-type': 'multipart/form-data',
+        }
+      }).then((response) => {
+        if (response.data.success) {
+          vm.pd.imageUrl = response.data.imageUrl;
+          vm.inputPdData();
+          vm.isImgLoading = true;
+        } else {
+          console.log('上傳失敗');
+          vm.isImgLoading = true;
+        }
+      });
     }
   },
   components: {

@@ -88,6 +88,7 @@ export default {
     },
     sendPdData(pd) {
       const vm = this;
+      console.log(pd);
       vm.emit_pd.data = {...pd};
     },
     enabledState() {
