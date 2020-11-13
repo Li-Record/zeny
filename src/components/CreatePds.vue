@@ -18,7 +18,7 @@
               <div class="form-group">
                 <label for="customFile"
                   >或 上傳圖片
-                  <i class="fas fa-spinner fa-spin"></i>
+                  <font-awesome-icon v-if="!isImgLoading" icon="spinner" class="fas fa-spinner fa-spin"></font-awesome-icon>
                 </label>
                 <input
                   type="file"
@@ -32,9 +32,9 @@
                 :src="pd.imageUrl"
                 class="img-fluid"
                 alt=""
-                v-if="isImgLoading"
+                
               />
-              <Loader v-else></Loader>
+              <!-- <Loader v-else></Loader> -->
             </div>
             <div class="col-sm-8">
               <div class="form-group">

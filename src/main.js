@@ -5,11 +5,20 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import './assets/all.scss'
 import App from './App.vue'
 import router from './router'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSpinner, faAlignLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
+// FontAwesome
+library.add(faSpinner, faAlignLeft)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.config.productionTip = false
 
 // 登入帶 cookie 並記錄
 axios.defaults.withCredentials = true;
